@@ -1,0 +1,175 @@
+/* ===============================
+   THEME SETTING
+================================ */
+:root {
+    --main-color: #ff4d6d;
+    --bg-color: #fff0f5;
+    --text-color: #444;
+}
+
+/* ===============================
+   BASE / BACKGROUND
+================================ */
+body {
+    margin: 0;
+    font-family: 'Arial', sans-serif;
+
+    /* Layer 1: Background image */
+    background-image: url("../assets/PPP.png");
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+
+    /* subtle movement */
+    animation: bgMove 40s linear infinite;
+
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* Layer 2: Overlay */
+body::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    background: rgba(255, 240, 245, 0.65);
+    z-index: -1;
+}
+
+/* ===============================
+   MAIN CONTAINER
+================================ */
+.container {
+    text-align: center;
+
+    background: rgba(255, 255, 255, 0.6);
+    padding: 30px 40px;
+    border-radius: 20px;
+
+    backdrop-filter: blur(6px);
+    box-shadow: 0 15px 40px rgba(0,0,0,0.15);
+
+    animation: fadeIn 1.2s ease;
+}
+
+h1 {
+    color: var(--main-color);
+    cursor: pointer;
+}
+
+.subtitle {
+    color: var(--text-color);
+    margin-bottom: 20px;
+}
+
+/* ===============================
+   BUTTON
+================================ */
+button {
+    background: var(--main-color);
+    color: white;
+    border: none;
+    padding: 12px 22px;
+    border-radius: 25px;
+    cursor: pointer;
+    margin: 8px;
+    font-size: 14px;
+
+    box-shadow: 0 6px 15px rgba(255, 77, 109, 0.4);
+    transition: all 0.2s ease;
+}
+
+button:hover {
+    transform: scale(1.05);
+    box-shadow: 0 8px 20px rgba(255, 77, 109, 0.5);
+}
+
+button:active {
+    transform: scale(0.95);
+}
+
+/* ===============================
+   POPUP OVERLAY
+================================ */
+.overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.4);
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s ease;
+}
+
+.overlay.show {
+    opacity: 1;
+    pointer-events: auto;
+}
+
+/* ===============================
+   POPUP CARD
+================================ */
+.popup-card {
+    background: rgba(255, 255, 255, 0.95);
+    padding: 30px;
+    border-radius: 18px;
+    max-width: 360px;
+    text-align: center;
+
+    animation: popUp 0.4s ease;
+}
+
+.popup-card:hover {
+    transform: translateY(-4px);
+    transition: transform 0.3s ease;
+}
+
+/* senior image */
+.senior-img {
+    width: 120px;
+    height: 120px;
+    object-fit: cover;
+    border-radius: 50%;
+    margin-bottom: 15px;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+}
+
+/* ===============================
+   ANIMATIONS
+================================ */
+@keyframes popUp {
+    from {
+        transform: scale(0.85);
+        opacity: 0;
+    }
+    to {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(15px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes bgMove {
+    from {
+        background-position: center top;
+    }
+    to {
+        background-position: center bottom;
+    }
+}

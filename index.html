@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <title>Message for Senior</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- # เปลี่ยนสี / ฟอนต์ หลักทั้งหมด แก้ที่ไฟล์ css -->
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+    <!-- ===== หน้าแรก ===== -->
+    <div class="container">
+        <h1 id="title">
+            มีข้อความส่งถึงรุ่นพี่ครับ 💌
+            <!-- # กดหัวข้อนี้จะมี Easter Egg -->
+        </h1>
+
+        <p class="subtitle">
+            เว็บเล็กๆ ที่ตั้งใจทำขึ้นมาโดยเฉพาะ
+            <!-- # แก้ข้อความตรงนี้ให้เป็นสไตล์คุณ -->
+        </p>
+
+        <button id="openBtn">
+            คลิกเปิดดูสิ!
+        </button>
+    </div>
+
+    <!-- ===== Popup ===== -->
+    <div id="overlay" class="overlay">
+        <div class="popup-card">
+
+            <!-- # ใส่รูปรุ่นพี่ตรงนี้ -->
+            <img src="assets/Narak.png" alt="รูปของรุ่นพี่" class="senior-img">
+            <!-- # เปลี่ยนเป็นรูปการ์ตูน / รูปคู่ / ไอคอนก็ได้ -->
+
+            <h2 id="popupTitle">
+                ถึงรุ่นพี่คนเก่ง 🌟
+                <!-- # ใส่ชื่อรุ่นพี่ตรงนี้ -->
+            </h2>
+
+            <p id="popupText"></p>
+
+            <button id="nextBtn">
+                อ่านต่อ →
+            </button>
+
+            <button id="closeBtn" class="close-btn">
+                ปิดด้วยรอยยิ้ม 😊
+            </button>
+
+        </div>
+    </div>
+
+    <script src="js/script.js"></script>
+</body>
+</html>
