@@ -2,19 +2,33 @@
 <html lang="th">
 <head>
     <meta charset="UTF-8">
-    <title>Message for Senior</title>
+    <title>Message for Senior 💌</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="มีข้อความส่งถึงรุ่นพี่ครับ 💌">
+    <meta name="theme-color" content="#ff4d6d">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>💌</text></svg>">
+
+    <!-- # ฟอนต์ไทยน่ารัก (Mali) จาก Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Mali:wght@400;600;700&display=swap" rel="stylesheet">
 
     <!-- # เปลี่ยนสี / ฟอนต์ หลักทั้งหมด แก้ที่ไฟล์ css -->
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
+    <!-- ===== หัวใจลอยพื้นหลัง (สร้างจาก script.js) ===== -->
+    <div id="hearts" class="hearts" aria-hidden="true"></div>
+
+    <!-- ===== ปุ่มเปิด/ปิดเสียง ===== -->
+    <button id="soundBtn" class="sound-btn" aria-label="เปิดเสียง" title="เปิด/ปิดเสียง">🔇</button>
+
     <!-- ===== หน้าแรก ===== -->
-    <div class="container">
-        <h1 id="title">
+    <main class="container">
+        <h1 id="title" title="ลองกดหลายๆ ทีสิ 👀">
             มีข้อความส่งถึงรุ่นพี่ครับ 💌
-            <!-- # กดหัวข้อนี้จะมี Easter Egg -->
+            <!-- # กดหัวข้อนี้ 5 ครั้งจะมี Easter Egg -->
         </h1>
 
         <p class="subtitle">
@@ -22,38 +36,49 @@
             <!-- # แก้ข้อความตรงนี้ให้เป็นสไตล์คุณ -->
         </p>
 
-        <button id="openBtn">
-            คลิกเปิดดูสิ!
+        <!-- ===== ซองจดหมาย (กดเพื่อเปิด) ===== -->
+        <button id="envelope" class="envelope" aria-label="เปิดซองจดหมาย">
+            <span class="env-back"></span>
+            <span class="env-letter">💕</span>
+            <span class="env-front"></span>
+            <span class="env-flap"></span>
+            <span class="env-seal">❤</span>
         </button>
-    </div>
+
+        <p class="hint">แตะที่ซองเพื่อเปิดดูสิ!</p>
+    </main>
 
     <!-- ===== Popup ===== -->
     <div id="overlay" class="overlay">
-        <div class="popup-card">
+        <div class="popup-card" role="dialog" aria-modal="true" aria-labelledby="popupTitle">
 
             <!-- # ใส่รูปรุ่นพี่ตรงนี้ -->
-            <img src="assets/Narak.png" alt="รูปของรุ่นพี่" class="senior-img">
-            <!-- # เปลี่ยนเป็นรูปการ์ตูน / รูปคู่ / ไอคอนก็ได้ -->
+            <img src="assets/Narak.png" alt="รูปของรุ่นพี่" class="senior-img" id="seniorImg">
 
-            <h2 id="popupTitle">
-                ถึงรุ่นพี่คนเก่ง 🌟
-                <!-- # ใส่ชื่อรุ่นพี่ตรงนี้ -->
-            </h2>
+            <!-- # ชื่อ/ข้อความทั้งหมดแก้ที่ CONFIG ใน script.js -->
+            <h2 id="popupTitle"></h2>
 
-            <p id="popupText"></p>
+            <p id="popupText" aria-live="polite" title="แตะเพื่อข้าม"></p>
 
-            <button id="nextBtn">
-                อ่านต่อ →
-            </button>
+            <div id="dots" class="dots" aria-hidden="true"></div>
 
-            <button id="closeBtn" class="close-btn">
-                ปิดด้วยรอยยิ้ม 😊
-            </button>
+            <button id="nextBtn" class="btn">อ่านต่อ →</button>
 
+            <!-- ===== คำถามตอนจบ ===== -->
+            <div id="question" class="question" hidden>
+                <button id="yesBtn" class="btn yes-btn">ได้สิ 💖</button>
+                <button id="noBtn" class="btn no-btn">ไม่เอา</button>
+            </div>
+
+            <button id="closeBtn" class="btn close-btn">ปิดด้วยรอยยิ้ม 😊</button>
         </div>
     </div>
 
-    <script src="script.js"></script>
+    <!-- ===== ข้อความลับ (Easter Egg) ===== -->
+    <div id="toast" class="toast" role="status"></div>
+
+    <!-- # ปลั๊กอินพลุกระดาษ (ถ้าโหลดไม่ได้ เว็บยังใช้ได้ปกติ) -->
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.3/dist/confetti.browser.min.js" defer></script>
+    <script src="script.js" defer></script>
 </body>
 </html>
-

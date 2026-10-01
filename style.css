@@ -1,10 +1,20 @@
 /* ===============================
    THEME SETTING
+   # เปลี่ยนสีหลักทั้งเว็บได้ตรงนี้
 ================================ */
 :root {
     --main-color: #ff4d6d;
+    --main-soft: #ff8fa3;
+    --main-light: #ffb3c1;
     --bg-color: #fff0f5;
     --text-color: #444;
+    --font: 'Mali', 'Arial', sans-serif;
+}
+
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
 }
 
 /* ===============================
@@ -12,7 +22,9 @@
 ================================ */
 body {
     margin: 0;
-    font-family: 'Arial', sans-serif;
+    font-family: var(--font);
+    color: var(--text-color);
+    background-color: var(--bg-color);
 
     /* Layer 1: Background image */
     background-image: url("assets/PPP.png");
@@ -21,12 +33,15 @@ body {
     background-repeat: no-repeat;
 
     /* subtle movement */
-    animation: bgMove 40s linear infinite;
+    animation: bgMove 40s linear infinite alternate;
 
-    height: 100vh;
+    min-height: 100vh;
+    min-height: 100dvh;
+    padding: 16px;
     display: flex;
     justify-content: center;
     align-items: center;
+    overflow-x: hidden;
 }
 
 /* Layer 2: Overlay */
@@ -39,17 +54,39 @@ body::before {
 }
 
 /* ===============================
+   FLOATING HEARTS
+================================ */
+.hearts {
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    overflow: hidden;
+    z-index: 0;
+}
+
+.float-heart {
+    position: absolute;
+    bottom: -40px;
+    opacity: 0;
+    animation: floatUp var(--dur, 9s) linear forwards;
+}
+
+/* ===============================
    MAIN CONTAINER
 ================================ */
 .container {
+    position: relative;
+    z-index: 1;
+    width: min(100%, 420px);
     text-align: center;
 
     background: rgba(255, 255, 255, 0.6);
-    padding: 30px 40px;
-    border-radius: 20px;
+    padding: 30px 28px 24px;
+    border-radius: 24px;
 
     backdrop-filter: blur(6px);
-    box-shadow: 0 15px 40px rgba(0,0,0,0.15);
+    -webkit-backdrop-filter: blur(6px);
+    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.15);
 
     animation: fadeIn 1.2s ease;
 }
@@ -57,17 +94,31 @@ body::before {
 h1 {
     color: var(--main-color);
     cursor: pointer;
+    font-size: clamp(1.4rem, 5.5vw, 1.9rem);
+    margin: 0 0 8px;
+    user-select: none;
+}
+
+h1.wiggle {
+    animation: wiggle 0.5s ease;
 }
 
 .subtitle {
-    color: var(--text-color);
-    margin-bottom: 20px;
+    margin: 0 0 18px;
+}
+
+.hint {
+    margin: 14px 0 0;
+    font-size: 0.85rem;
+    opacity: 0.75;
+    animation: pulse 2s ease-in-out infinite;
 }
 
 /* ===============================
    BUTTON
 ================================ */
-button {
+.btn {
+    font-family: var(--font);
     background: var(--main-color);
     color: white;
     border: none;
@@ -75,19 +126,169 @@ button {
     border-radius: 25px;
     cursor: pointer;
     margin: 8px;
-    font-size: 14px;
+    font-size: 15px;
 
     box-shadow: 0 6px 15px rgba(255, 77, 109, 0.4);
-    transition: all 0.2s ease;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
-button:hover {
+.btn:hover {
     transform: scale(1.05);
     box-shadow: 0 8px 20px rgba(255, 77, 109, 0.5);
 }
 
-button:active {
+.btn:active {
     transform: scale(0.95);
+}
+
+.btn:focus-visible,
+.envelope:focus-visible,
+.sound-btn:focus-visible {
+    outline: 3px dashed var(--main-color);
+    outline-offset: 4px;
+}
+
+.close-btn {
+    display: block;
+    margin: 6px auto 0;
+    background: transparent;
+    color: var(--main-color);
+    box-shadow: none;
+    font-size: 14px;
+}
+
+.close-btn:hover {
+    box-shadow: none;
+    text-decoration: underline;
+}
+
+/* ===============================
+   SOUND BUTTON
+================================ */
+.sound-btn {
+    position: fixed;
+    top: 14px;
+    right: 14px;
+    z-index: 60;
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    border: none;
+    background: rgba(255, 255, 255, 0.8);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
+    font-size: 20px;
+    cursor: pointer;
+    transition: transform 0.2s ease;
+}
+
+.sound-btn:hover {
+    transform: scale(1.1) rotate(-8deg);
+}
+
+/* ===============================
+   ENVELOPE
+================================ */
+.envelope {
+    position: relative;
+    display: block;
+    width: 200px;
+    height: 130px;
+    margin: 30px auto 0;
+    padding: 0;
+    border: none;
+    background: none;
+    cursor: pointer;
+    perspective: 600px;
+    animation: floaty 3s ease-in-out infinite;
+}
+
+.envelope > span {
+    position: absolute;
+    pointer-events: none;
+}
+
+.env-back {
+    inset: 0;
+    background: var(--main-soft);
+    border-radius: 10px;
+}
+
+.env-letter {
+    left: 12px;
+    right: 12px;
+    top: 8px;
+    bottom: 8px;
+    z-index: 1;
+    background: white;
+    border-radius: 6px;
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+    padding-top: 10px;
+    font-size: 28px;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+    transition: transform 0.6s ease 0.35s;
+}
+
+.env-front {
+    inset: 0;
+    z-index: 2;
+    background: var(--main-light);
+    border-radius: 10px;
+    clip-path: polygon(0 0, 50% 55%, 100% 0, 100% 100%, 0 100%);
+}
+
+.env-flap {
+    left: 0;
+    right: 0;
+    top: 0;
+    height: 62%;
+    z-index: 3;
+    background: var(--main-color);
+    border-radius: 10px 10px 0 0;
+    clip-path: polygon(0 0, 100% 0, 50% 100%);
+    transform-origin: top;
+    transition: transform 0.5s ease, z-index 0s linear 0.25s;
+}
+
+.env-seal {
+    left: 50%;
+    top: 58%;
+    z-index: 4;
+    width: 34px;
+    height: 34px;
+    margin: -17px 0 0 -17px;
+    border-radius: 50%;
+    background: #fff;
+    color: var(--main-color);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+    transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+.envelope:hover .env-seal {
+    transform: scale(1.15);
+}
+
+.envelope.open {
+    animation: none;
+}
+
+.envelope.open .env-flap {
+    transform: rotateX(180deg);
+    z-index: 0;
+}
+
+.envelope.open .env-seal {
+    opacity: 0;
+    transform: scale(0.3);
+}
+
+.envelope.open .env-letter {
+    transform: translateY(-55px);
 }
 
 /* ===============================
@@ -96,7 +297,9 @@ button:active {
 .overlay {
     position: fixed;
     inset: 0;
-    background: rgba(0,0,0,0.4);
+    z-index: 50;
+    padding: 16px;
+    background: rgba(0, 0, 0, 0.4);
 
     display: flex;
     justify-content: center;
@@ -116,18 +319,36 @@ button:active {
    POPUP CARD
 ================================ */
 .popup-card {
-    background: rgba(255, 255, 255, 0.95);
-    padding: 30px;
-    border-radius: 18px;
-    max-width: 360px;
+    position: relative;
+    background: rgba(255, 255, 255, 0.96);
+    padding: 28px 24px 18px;
+    border-radius: 22px;
+    width: min(100%, 360px);
     text-align: center;
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.25);
+}
 
+.overlay.show .popup-card {
     animation: popUp 0.4s ease;
 }
 
-.popup-card:hover {
-    transform: translateY(-4px);
-    transition: transform 0.3s ease;
+#popupTitle {
+    color: var(--main-color);
+    margin: 0 0 10px;
+    min-height: 1.4em;
+}
+
+#popupText {
+    min-height: 3.4em;
+    margin: 0 0 6px;
+    line-height: 1.6;
+    cursor: pointer;
+}
+
+#popupText.typing::after {
+    content: "▍";
+    color: var(--main-color);
+    animation: blink 0.8s steps(1) infinite;
 }
 
 /* senior image */
@@ -136,41 +357,175 @@ button:active {
     height: 120px;
     object-fit: cover;
     border-radius: 50%;
-    margin-bottom: 15px;
-    box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+    margin-bottom: 12px;
+    border: 4px solid white;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+    transition: transform 0.3s ease;
+}
+
+.senior-img:hover {
+    transform: scale(1.08) rotate(2deg);
+}
+
+.senior-img.bounce {
+    animation: bounce 0.8s ease 2;
+}
+
+/* progress dots */
+.dots {
+    display: flex;
+    justify-content: center;
+    gap: 6px;
+    margin-bottom: 4px;
+}
+
+.dots span {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--main-light);
+    transition: all 0.3s ease;
+}
+
+.dots span.active {
+    width: 22px;
+    border-radius: 4px;
+    background: var(--main-color);
+}
+
+/* ===============================
+   QUESTION (YES / NO)
+================================ */
+.question {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 4px;
+    min-height: 70px;
+}
+
+.question[hidden] {
+    display: none;
+}
+
+.yes-btn {
+    transition: transform 0.25s ease;
+}
+
+.no-btn {
+    background: #adb5bd;
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.15);
+    transition: transform 0.35s cubic-bezier(.34, 1.56, .64, 1);
+}
+
+.no-btn:hover {
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.15);
+}
+
+/* ===============================
+   CLICK SPARKLES
+================================ */
+.sparkle {
+    position: fixed;
+    z-index: 200;
+    pointer-events: none;
+    font-size: 16px;
+    transform: translate(-50%, -50%);
+    animation: sparkle 0.8s ease-out forwards;
+}
+
+/* ===============================
+   TOAST (EASTER EGG)
+================================ */
+.toast {
+    position: fixed;
+    left: 50%;
+    bottom: 24px;
+    z-index: 150;
+    max-width: calc(100% - 32px);
+    padding: 12px 20px;
+    border-radius: 16px;
+    background: white;
+    color: var(--main-color);
+    font-weight: 600;
+    text-align: center;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+    transform: translate(-50%, 150%);
+    transition: transform 0.4s cubic-bezier(.34, 1.56, .64, 1);
+}
+
+.toast.show {
+    transform: translate(-50%, 0);
 }
 
 /* ===============================
    ANIMATIONS
 ================================ */
 @keyframes popUp {
-    from {
-        transform: scale(0.85);
-        opacity: 0;
-    }
-    to {
-        transform: scale(1);
-        opacity: 1;
-    }
+    from { transform: scale(0.85); opacity: 0; }
+    to   { transform: scale(1);    opacity: 1; }
 }
 
 @keyframes fadeIn {
-    from {
-        opacity: 0;
-        transform: translateY(15px);
-    }
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
+    from { opacity: 0; transform: translateY(15px); }
+    to   { opacity: 1; transform: translateY(0); }
 }
 
 @keyframes bgMove {
-    from {
-        background-position: center top;
-    }
+    from { background-position: center top; }
+    to   { background-position: center bottom; }
+}
+
+@keyframes floatUp {
+    0%   { transform: translate(0, 0) rotate(0deg); opacity: 0; }
+    10%  { opacity: var(--alpha, 0.7); }
+    90%  { opacity: var(--alpha, 0.7); }
+    100% { transform: translate(var(--drift, 30px), -110vh) rotate(25deg); opacity: 0; }
+}
+
+@keyframes floaty {
+    0%, 100% { transform: translateY(0) rotate(-1deg); }
+    50%      { transform: translateY(-8px) rotate(1deg); }
+}
+
+@keyframes pulse {
+    0%, 100% { opacity: 0.5; }
+    50%      { opacity: 0.9; }
+}
+
+@keyframes blink {
+    50% { opacity: 0; }
+}
+
+@keyframes bounce {
+    0%, 100% { transform: translateY(0) scale(1); }
+    30%      { transform: translateY(-14px) scale(1.06); }
+    60%      { transform: translateY(0) scale(0.97); }
+}
+
+@keyframes wiggle {
+    0%, 100% { transform: rotate(0); }
+    25%      { transform: rotate(-4deg); }
+    75%      { transform: rotate(4deg); }
+}
+
+@keyframes sparkle {
     to {
-        background-position: center bottom;
+        transform: translate(calc(-50% + var(--dx)), calc(-50% + var(--dy))) scale(0.3);
+        opacity: 0;
     }
 }
 
+/* ===============================
+   ลดการเคลื่อนไหวสำหรับคนที่ตั้งค่าไว้
+================================ */
+@media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+    }
+}
