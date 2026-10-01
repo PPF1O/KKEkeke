@@ -49,6 +49,7 @@ const heartsLayer = $("hearts");
 const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
 let currentIndex = 0;
+let locked = false; // ระหว่างถามคำถาม ห้ามหนี!
 
 /* ===============================
    SOUND
@@ -173,6 +174,7 @@ function showPage(index) {
   // หน้าสุดท้าย: คำถาม
   updateDots(-1);
   nextBtn.hidden = true;
+  setLocked(true);
   typeWriter(popupText, CONFIG.question).then(() => {
     question.hidden = false;
   });
@@ -182,6 +184,7 @@ function resetPopup() {
   currentIndex = 0;
   nextBtn.hidden = false;
   question.hidden = true;
+  setLocked(false);
   noBtn.textContent = CONFIG.noTexts[0];
   noBtn.style.transform = "";
   yesBtn.style.transform = "";
@@ -270,6 +273,7 @@ noBtn.addEventListener("click", dodge);
 
 yesBtn.addEventListener("click", () => {
   question.hidden = true;
+  setLocked(false);
   seniorImg.classList.add("bounce");
   typeWriter(popupText, CONFIG.yesReply);
   Sound.chime();
@@ -305,8 +309,14 @@ function celebrate() {
 /* ===============================
    CLOSE POPUP
 ================================ */
+// ล็อก = ซ่อนปุ่มปิด และกด ESC / แตะนอกการ์ดก็ปิดไม่ได้ ต้องตอบ "ได้สิ" เท่านั้น 😝
+function setLocked(value) {
+  locked = value;
+  closeBtn.hidden = value;
+}
+
 function closePopup() {
-  if (!overlay.classList.contains("show")) return;
+  if (!overlay.classList.contains("show") || locked) return;
 
   overlay.classList.remove("show");
   cancelTyping(popupTitle);
